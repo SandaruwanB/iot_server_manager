@@ -29,7 +29,7 @@ void rackDrawing (bool isInverted) {
     }
     display.setCursor(14, 1);
     display.print(F("[ NAF SERVERS ]"));
-    display.setTextColor(RED);
+    display.setTextColor(INVERSE);
     display.drawRect(RACK_X, RACK_Y, RACK_W, RACK_H, WHITE);
 }
 
@@ -97,6 +97,6 @@ void setup() {
     playStartAnime();
 }
 
-void void loop() {
+void loop() {
     
 }
