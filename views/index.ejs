@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DHT22 Live Monitor</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 48px 24px;
+            min-height: 100vh;
+            gap: 14px;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            color: #e2e8f0;
+            letter-spacing: 0.05em;
+        }
+
+        h1 span { color: #38bdf8; }
+
+        #status {
+            font-size: 0.8rem;
+            padding: 4px 14px;
+            border-radius: 999px;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        #status::before {
+            content: '';
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            display: inline-block;
+        }
+        #status.connected    { color: #4ade80; }
+        #status.disconnected { color: #f87171; }
+
+        .gauges {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        .gauge-card {
+            background: #1e293b;
+            border-radius: 24px;
+            padding: 32px 40px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            min-width: 240px;
+        }
+
+        .gauge-title {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 600;
+        }
+
+        /* ── SVG gauge ── */
+        .gauge-svg { width: 210px; height: 210px; overflow: visible; }
+
+        .gauge-track {
+            fill: none;
+            stroke: #0f172a;
+            stroke-width: 18;
+            stroke-linecap: round;
+        }
+
+        .gauge-fill {
+            fill: none;
+            stroke-width: 18;
+            stroke-linecap: round;
+            transition: stroke-dasharray 0.7s cubic-bezier(.4,0,.2,1),
+                        stroke 0.5s ease;
+        }
+
+        .gauge-value {
+            font-size: 2.6rem;
+            font-weight: 700;
+            fill: #f1f5f9;
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+
+        .gauge-unit {
+            font-size: 0.95rem;
+            fill: #475569;
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+
+        .gauge-range {
+            display: flex;
+            justify-content: space-between;
+            width: 210px;
+            font-size: 0.72rem;
+            color: #334155;
+            padding: 0 4px;
+        }
+
+        /* ── stats bar ── */
+        .stats {
+            display: flex;
+            gap: 32px;
+            margin-top: 8px;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .stat-val {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #94a3b8;
+        }
+
+        #last-updated {
+            font-size: 0.78rem;
+            color: #334155;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>DHT22 <span>Live Monitor</span></h1>
+    <div id="status" class="disconnected">Disconnected</div>
+
+    <div class="gauges">
+
+        <div class="gauge-card">
+            <div class="gauge-title">Temperature</div>
+            <svg class="gauge-svg" viewBox="0 0 200 200">
+                <circle class="gauge-track" cx="100" cy="100" r="80"
+                    stroke-dasharray="376.99 125.66"
+                    transform="rotate(135 100 100)" />
+                <circle id="temp-fill" class="gauge-fill" cx="100" cy="100" r="80"
+                    stroke="#38bdf8"
+                    stroke-dasharray="0 502.65"
+                    transform="rotate(135 100 100)" />
+                <text id="temp-value" class="gauge-value" x="100" y="95">--</text>
+                <text class="gauge-unit" x="100" y="128">°C</text>
+            </svg>
+            <div class="gauge-range"><span>-40°C</span><span>80°C</span></div>
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-label">Min</span>
+                    <span class="stat-val" id="temp-min">--</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Max</span>
+                    <span class="stat-val" id="temp-max">--</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="gauge-card">
+            <div class="gauge-title">Humidity</div>
+            <svg class="gauge-svg" viewBox="0 0 200 200">
+                <circle class="gauge-track" cx="100" cy="100" r="80"
+                    stroke-dasharray="376.99 125.66"
+                    transform="rotate(135 100 100)" />
+                <circle id="hum-fill" class="gauge-fill" cx="100" cy="100" r="80"
+                    stroke="#38bdf8"
+                    stroke-dasharray="0 502.65"
+                    transform="rotate(135 100 100)" />
+                <text id="hum-value" class="gauge-value" x="100" y="95">--</text>
+                <text class="gauge-unit" x="100" y="128">%</text>
+            </svg>
+            <div class="gauge-range"><span>0%</span><span>100%</span></div>
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-label">Min</span>
+                    <span class="stat-val" id="hum-min">--</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Max</span>
+                    <span class="stat-val" id="hum-max">--</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="last-updated">Waiting for sensor data…</div>
+
+    <script>
+        const CIRCUMFERENCE = 2 * Math.PI * 80;
+        const ARC_LENGTH    = (270 / 360) * CIRCUMFERENCE;
+
+        const session = {
+            temp: { min: Infinity, max: -Infinity },
+            hum:  { min: Infinity, max: -Infinity }
+        };
+
+        function tempColor(v)  { return v < 15 ? '#38bdf8' : v < 30 ? '#4ade80' : '#f87171'; }
+        function humColor(v)   { return v < 30 ? '#fbbf24' : v < 70 ? '#4ade80' : '#38bdf8'; }
+
+        function updateGauge(fillId, valueId, value, min, max, colorFn) {
+            const ratio  = Math.max(0, Math.min(1, (value - min) / (max - min)));
+            const filled = ratio * ARC_LENGTH;
+
+            const fill = document.getElementById(fillId);
+            fill.style.strokeDasharray = `${filled} ${CIRCUMFERENCE - filled}`;
+            fill.setAttribute('stroke', colorFn(value));
+
+            document.getElementById(valueId).textContent = value.toFixed(1);
+        }
+
+        function updateStat(id, value) {
+            document.getElementById(id).textContent = value.toFixed(1);
+        }
+
+        const status      = document.getElementById('status');
+        const lastUpdated = document.getElementById('last-updated');
+        const ws = new WebSocket(`ws://${location.host}`);
+
+        ws.addEventListener('open', () => {
+            status.textContent = 'Connected';
+            status.className = 'connected';
+        });
+
+        ws.addEventListener('close', () => {
+            status.textContent = 'Disconnected';
+            status.className = 'disconnected';
+        });
+
+        ws.addEventListener('message', (event) => {
+            const payload = JSON.parse(event.data);
+
+            if (payload.type === 'dht22' && payload.data) {
+                const { temperature: t, humidity: h } = payload.data;
+
+                updateGauge('temp-fill', 'temp-value', t, -40,  80, tempColor);
+                updateGauge('hum-fill',  'hum-value',  h,   0, 100, humColor);
+
+                if (t < session.temp.min) { session.temp.min = t; updateStat('temp-min', t); }
+                if (t > session.temp.max) { session.temp.max = t; updateStat('temp-max', t); }
+                if (h < session.hum.min)  { session.hum.min  = h; updateStat('hum-min',  h); }
+                if (h > session.hum.max)  { session.hum.max  = h; updateStat('hum-max',  h); }
+
+                lastUpdated.textContent = 'Last updated: ' + new Date().toLocaleTimeString();
+            }
+        });
+    </script>
+</body>
+</html>
