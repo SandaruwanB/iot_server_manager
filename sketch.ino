@@ -32,3 +32,71 @@ void rackDrawing (bool isInverted) {
     display.setTextColor(RED);
     display.drawRect(RACK_X, RACK_Y, RACK_W, RACK_H, WHITE);
 }
+
+
+void slotDrawing (int i, bool isOnline){
+    const int y = RACK_Y + 2 + i * 12;
+    display.drawRect(RACK_X + 4, y, RACK_W - 8, 10, WHITE);
+    display.fillRect(RACK_X + 8, y + 3, 4, 4, isOnline ? WHITE : BLACK);
+
+    if (!isOnline) display.drawRect(RACK_X + 8, y + 3, 4, 4, WHITE);
+    display.setCursor(RACK_X + 16, y + 2);
+    display.print(F("SV-"));
+    display.print(i + 1);
+
+    if (isOnline) {
+        display.fillRect(RACK_X + RACK_W - 20, y + 3, 14, 4, WHITE);
+    } else {
+        display.drawRect(RACK_X + RACK_W - 20, y + 3, 14, 4, WHITE);
+    }
+}
+
+void playStartAnime () {
+    // rack frame and title
+    display.clearDisplay();
+    rackDrawing(false);
+    display.display();
+    delay(500);
+
+    // slots
+    for (int i = 0; i < 4; i++) {
+        slotDrawing(i, false);
+        display.display();
+        delay(250);
+    }
+    delay(200);
+
+    // slot blinking
+    for (int b = 0; b < 4; b++) {
+    display.clearDisplay();
+    rackDrawing(false);
+    for (int i = 0; i < 4; i++) slotDrawing(i, b % 2 == 0);
+        display.display();
+        delay(180);
+    }
+
+    // slots full color
+    display.clearDisplay();
+    rackDrawing(true);
+    for (int i = 0; i < 4; i++) { 
+        slotDrawing(i, true);
+    }
+    display.display();
+    delay(1000);
+}
+
+void setup() {
+    Serial.begin(115200);
+    
+    if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+        Serial.println(F("OLED failed"));
+        while (true);
+    }
+
+    display.setTextColor(WHITE);
+    playStartAnime();
+}
+
+void void loop() {
+    
+}
