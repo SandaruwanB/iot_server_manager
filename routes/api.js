@@ -2,9 +2,9 @@ const route = require('express').Router();
 
 
 module.exports = (broadcast) => {
-    route.get('/', (req, res) => {
-        res.render('index');
-    });
+    // route.get('/', (req, res) => {
+    //     res.render('index');
+    // });
 
     route.get('/hello', (req, res) => {
         res.json({ message: 'Hello, World!' });

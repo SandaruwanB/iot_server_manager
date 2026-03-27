@@ -2,10 +2,14 @@ const express = require('express');
 const http = require('http');
 const { WebSocketServer } = require('ws');
 const path = require('path');
+const dotnev = require('dotenv');
+
+dotnev.config({path: path.join(__dirname, '.env')});
 
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
+const port = process.env.PORT || 8080;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -40,8 +44,12 @@ wss.on('connection', (ws) => {
     ws.on('close', () => console.log('Client disconnected'));
 });
 
-app.use('/api', require('./routes/api')(broadcast));
+app.get('/', (req, res) => res.redirect('/web/login'));
 
-server.listen(8000, () => {
-    console.log('Server is running on port 8000');
+app.use('/api', require('./routes/api')(broadcast));
+app.use('/web', require('./routes/web')(broadcast));
+
+
+server.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });
