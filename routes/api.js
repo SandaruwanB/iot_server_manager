@@ -1,3 +1,5 @@
+const { sendPasswordResetMail } = require('../controllers/mailController');
+
 const route = require('express').Router();
 
 
@@ -5,6 +7,8 @@ module.exports = (broadcast) => {
     // route.get('/', (req, res) => {
     //     res.render('index');
     // });
+
+    route.post('/mail', sendPasswordResetMail);
 
     route.get('/hello', (req, res) => {
         res.json({ message: 'Hello, World!' });
