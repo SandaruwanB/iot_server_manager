@@ -1,10 +1,12 @@
 const route = require('express').Router();
 
+const { getLoginView } = require('../controllers/authController');
 
-module.exports = (brodcast) => {
-    route.get('/login', (req, res) => {
-        res.render('login');
-    });
+
+
+module.exports = (broadcast) => {
+    route.get('/login', getLoginView);
+
 
     return route;
 }

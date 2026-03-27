@@ -16,6 +16,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/static', express.static(path.join(__dirname, 'views/static')));
 
 function broadcast(data) {
     const payload = JSON.stringify(data);
