@@ -272,8 +272,17 @@ a:hover {
 .card-link{
     font-size: 0.7rem;
     color: var(--text-primary);
-    text-align: right;
     cursor: pointer;
+    text-align: right;
+    transition: all 0.1s ease-in-out;
+}
+
+.card-linkback{
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    text-align: center;
     transition: all 0.1s ease-in-out;
 }
 

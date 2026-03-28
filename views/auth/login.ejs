@@ -1,17 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LocalCloud &mdash; Sign In</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <script>
-        (function () {
-            const saved = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', saved);
-        })();
-    </script>
-</head>
+<%- include('../imports/top', { title: 'Sign In' }) %>
 <body>
     <div class="bg-grid"></div>
 
@@ -70,7 +57,7 @@
                     </div>
 
                     <div class="card-link">
-                        <a href="">Forgot password?</a>
+                        <a href="/web/password/reset">Forgot password?</a>
                     </div>
 
                     <div class="field-options">
@@ -106,8 +93,6 @@
         <%- include('../components/footer') %>
 
     </div>
-
-    <script src="/static/js/common.js"></script>
-    <script src="/static/js/script.js"></script>
+    <%- include('../imports/js') %>
 </body>
 </html>
