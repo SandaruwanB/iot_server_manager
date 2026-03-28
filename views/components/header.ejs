@@ -1,0 +1,22 @@
+<header class="topbar">
+    <div class="topbar-brand">
+        <svg class="brand-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 15a4 4 0 004 4h9a5 5 0 10-4.584-7.002A4 4 0 003 15z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="brand-name">LocalCloud</span>
+    </div>
+    <div class="topbar-right">
+        <% if (typeof topbarLabel !== 'undefined' && topbarLabel) { %>
+            <span class="topbar-page-label"><%= topbarLabel %></span>
+        <% } %>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none">
+                <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+        </button>
+    </div>
+</header>

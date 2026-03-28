@@ -60,6 +60,16 @@ html, body {
     transition: background-color 0.25s ease, color 0.25s ease;
 }
 
+a {
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: all 0.1s ease-in-out;
+}
+
+a:hover {
+    color: var(--accent);
+}
+
 
 
 .bg-grid {
@@ -119,6 +129,13 @@ html, body {
     color: var(--text-primary);
 }
 
+.topbar-page-label {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    letter-spacing: 0.3px;
+}
+
 .topbar-right {
     display: flex;
     align-items: center;
@@ -131,7 +148,6 @@ html, body {
     gap: 7px;
 }
 
-/* Theme toggle */
 .theme-toggle {
     display: flex;
     align-items: center;
@@ -253,6 +269,18 @@ html, body {
     line-height: 1.5;
 }
 
+.card-link{
+    font-size: 0.7rem;
+    color: var(--text-primary);
+    text-align: right;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+}
+
+.card-link:hover {
+    color: var(--accent);
+}
+
 
 .alert {
     display: flex;
@@ -365,7 +393,7 @@ html, body {
     height: 16px;
 }
 
-/* Checkbox */
+
 .field-options {
     margin-top: -6px;
 }
@@ -449,6 +477,21 @@ html, body {
     flex-shrink: 0;
     transition: transform var(--transition);
 }
+
+.btn-spinner {
+    display: none;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.btn-submit.loading .btn-arrow { display: none; }
+.btn-submit.loading .btn-spinner { display: block; }
 
 .btn-submit:hover .btn-arrow {
     transform: translateX(3px);

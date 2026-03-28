@@ -1,3 +1,3 @@
 module.exports.getLoginView = (req, res) => {
-    res.render('login');
+    res.render('auth/login');
 }
