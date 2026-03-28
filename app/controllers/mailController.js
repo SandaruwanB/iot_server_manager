@@ -10,25 +10,27 @@ module.exports.sendPasswordResetMail = async (req, res) => {
         "Messages" : [
             {
                 "From": {
-					"Email": "developersandaru@gmail.com",
-					"Name": "Server Manager"
-			    },
-				"To": [
-					{
-						"Email": "sandarusbandara110@gmail.com",
-						"Name": "Sandaruwan Bandara"
-					}
-				],
-				"Subject": "Your email flight plan!",
-				"TextPart": "Dear Sandaruwan Bandara, welcome to Mailjet! May the delivery force be with you!",
-				"HTMLPart": "<h3>Dear Sandaruwan Bandara, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3><br />May the delivery force be with you!"
+                    "Email": process.env.MAIL_FROM,
+                    "Name": "Server Manager"
+                },
+                "To": [
+                    {
+                        "Email": process.env.MAIL_TO,
+                        "Name": "Administrator"
+                    }
+                ],
+                "Subject": "Password Reset Request",
+                "TextPart": "A password reset has been requested for your Server Manager account.",
+                "HTMLPart": "<h3>Password Reset Request</h3><p>A password reset has been requested for your Server Manager account.</p>"
             }
         ]
     });
 
-    request.then((result) => {
-        console.log(result.body);
-    }).catch(err => {
-        console.log(err.statusCode);
-    });
+    try {
+        await request;
+        res.json({ ok: true });
+    } catch (err) {
+        console.error('Mail send error:', err);
+        res.status(500).json({ error: 'Failed to send email' });
+    }
 }

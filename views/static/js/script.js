@@ -41,11 +41,19 @@ function showAlert(message) {
     const form = document.getElementById('login-form');
     const div  = document.createElement('div');
     div.className = 'alert alert-error';
-    div.innerHTML = `
-        <svg viewBox="0 0 24 24" fill="none">
-            <path d="M12 9v4m0 4h.01M10.29 3.86l-8.19 14.2A2 2 0 003.83 21h16.34a2 2 0 001.73-3l-8.19-14.14a2 2 0 00-3.42.0z"
-                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        ${message}`;
+
+    const svg  = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('fill', 'none');
+    const svgPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    svgPath.setAttribute('d', 'M12 9v4m0 4h.01M10.29 3.86l-8.19 14.2A2 2 0 003.83 21h16.34a2 2 0 001.73-3l-8.19-14.14a2 2 0 00-3.42.0z');
+    svgPath.setAttribute('stroke', 'currentColor');
+    svgPath.setAttribute('stroke-width', '1.8');
+    svgPath.setAttribute('stroke-linecap', 'round');
+    svgPath.setAttribute('stroke-linejoin', 'round');
+    svg.appendChild(svgPath);
+
+    div.appendChild(svg);
+    div.appendChild(document.createTextNode(message));
     form.parentElement.insertBefore(div, form);
 }
