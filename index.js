@@ -1,12 +1,13 @@
+const path = require('path');
+const dotnev = require('dotenv');
+dotnev.config({path: path.join(__dirname, '.env')});
+
 const express = require('express');
 const http = require('http');
 const cors = require('cors');
 const { WebSocketServer } = require('ws');
-const path = require('path');
-const dotnev = require('dotenv');
+const { migrate } = require('./database/migrator');
 
-
-dotnev.config({path: path.join(__dirname, '.env')});
 
 const app = express();
 const server = http.createServer(app);
@@ -52,6 +53,7 @@ app.use('/api', require('./routes/api')(broadcast));
 app.use('/web', require('./routes/web')(broadcast));
 
 
-server.listen(port, () => {
+server.listen(port, async () => {
+    if (process.env.DB_MIGRATE === 'true') await migrate();
     console.log(`Server is running on port ${port}`);
 });
