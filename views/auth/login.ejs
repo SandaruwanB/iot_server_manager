@@ -1,27 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LocalCloud &mdash; Sign In</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-</head>
+<%- include('../imports/top', { title: 'Sign In' }) %>
 <body>
     <div class="bg-grid"></div>
 
     <div class="main">
-        <header class="topbar">
-            <div class="topbar-brand">
-                <svg class="brand-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 15a4 4 0 004 4h9a5 5 0 10-4.584-7.002A4 4 0 003 15z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span class="brand-name">LocalCloud</span>
-            </div>
-            <div class="topbar-status">
-                <span class="status-dot"></span>
-                <span class="status-label">Server Online</span>
-            </div>
-        </header>
+        <%- include('../components/header') %>
 
         <div class="center-container">
             <div class="login-card">
@@ -43,7 +25,7 @@
                     </div>
                 <% } %>
 
-                <form action="/api/login" method="POST" class="login-form" autocomplete="off">
+                <form id="login-form" class="login-form" autocomplete="off" novalidate>
 
                     <div class="field-group">
                         <label for="username" class="field-label">Username</label>
@@ -74,6 +56,10 @@
                         </div>
                     </div>
 
+                    <div class="card-link">
+                        <a href="/web/password/reset">Forgot password?</a>
+                    </div>
+
                     <div class="field-options">
                         <label class="checkbox-wrap">
                             <input type="checkbox" name="remember">
@@ -82,10 +68,13 @@
                         </label>
                     </div>
 
-                    <button type="submit" class="btn-submit">
+                    <button type="submit" class="btn-submit" id="btn-submit">
                         <span class="btn-text">Sign In</span>
                         <svg class="btn-arrow" viewBox="0 0 24 24" fill="none">
                             <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <svg class="btn-spinner" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.5" stroke-dasharray="56.5" stroke-dashoffset="42" stroke-linecap="round"/>
                         </svg>
                     </button>
 
@@ -101,25 +90,9 @@
             </div>
         </div>
 
-        <footer class="page-footer">
-            <span>LocalCloud Management &copy; <%= new Date().getFullYear() %></span>
-            <span class="sep">&bull;</span>
-            <span>v1.0.0</span>
-        </footer>
+        <%- include('../components/footer') %>
 
     </div>
-
-    <script>
-        function togglePassword() {
-            const input = document.getElementById('password');
-            const icon  = document.getElementById('eye-icon');
-            const show  = input.type === 'password';
-            input.type  = show ? 'text' : 'password';
-            icon.innerHTML = show
-                ? '<path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07A3 3 0 019.88 9.88M3 3l18 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'
-                : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/>';
-        }
-    </script>
-
+    <%- include('../imports/js') %>
 </body>
 </html>
