@@ -1,6 +1,6 @@
 const route = require('express').Router();
 
-const { getLoginView, getResetPasswordView } = require('../controllers/authController');
+const { getLoginView, getResetPasswordView } = require('../app/controllers/authController');
 
 
 

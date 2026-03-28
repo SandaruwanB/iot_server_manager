@@ -1,4 +1,4 @@
-const { sendPasswordResetMail } = require('../controllers/mailController');
+const { sendPasswordResetMail } = require('../app/controllers/mailController');
 
 const route = require('express').Router();
 
