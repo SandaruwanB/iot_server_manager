@@ -109,13 +109,18 @@ void setup() {
     WiFi.mode(WIFI_STA);
     WiFi.begin(WIFI_SSID, WIFI_PASS);
     Serial.print(F("Connecting to WiFi"));
-    while (WiFi.status() != WL_CONNECTED) {
+    unsigned long wifiStart = millis();
+    while (WiFi.status() != WL_CONNECTED && millis() - wifiStart < 10000) {
         delay(500);
         Serial.print('.');
     }
     Serial.println();
-    Serial.print(F("Connected. IP: "));
-    Serial.println(WiFi.localIP());
+    if (WiFi.status() == WL_CONNECTED) {
+        Serial.print(F("Connected. IP: "));
+        Serial.println(WiFi.localIP());
+    } else {
+        Serial.println(F("WiFi timeout. Skipping."));
+    }
 
     dht.begin();
     sensors.begin();
