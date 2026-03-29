@@ -4,6 +4,10 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 #include "DHT.h"
+#include <WiFi.h>
+
+#define WIFI_SSID "Sandaruwan's iPhone"
+#define WIFI_PASS "sandaru119"
 
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
@@ -51,6 +55,20 @@ void slotDrawing (int i, bool isOnline){
     }
 }
 
+void drawWifiIcon(int16_t x, int16_t y, bool connected) {
+    int16_t cx = x + 7;
+    int16_t cy = y + 9;
+
+    display.drawCircle(cx, cy, 8, WHITE); // outer arc
+    display.drawCircle(cx, cy, 5, WHITE); // mid arc
+    display.fillCircle(cx, cy, 2, WHITE); // dot
+    display.fillRect(cx - 8, cy, 17, 10, BLACK); // mask bottom half
+
+    if (!connected) {
+        display.drawLine(x, y + 8, x + 14, y, WHITE); // strike-through
+    }
+}
+
 void playStartAnime () {
     // rack frame and title
     display.clearDisplay();
@@ -87,6 +105,18 @@ void playStartAnime () {
 
 void setup() {
     Serial.begin(115200);
+
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(WIFI_SSID, WIFI_PASS);
+    Serial.print(F("Connecting to WiFi"));
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print('.');
+    }
+    Serial.println();
+    Serial.print(F("Connected. IP: "));
+    Serial.println(WiFi.localIP());
+
     dht.begin();
     sensors.begin();
     
@@ -109,6 +139,7 @@ void loop() {
     display.setTextSize(1);
     display.setCursor(0, 0);
     display.println(F("Sensor Data"));
+    drawWifiIcon(113, 0, WiFi.status() == WL_CONNECTED);
 
     for (int i = 0; i < 4; i++) {
         display.setCursor(0, (i + 1) * 10);
