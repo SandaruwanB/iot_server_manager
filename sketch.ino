@@ -121,7 +121,9 @@ void loop() {
                 display.println(F(": Err"));
             } else {
                 display.print(F(": "));
-                display.print(tempC, 1);
+                display.print(tempC, 2);
+                display.drawCircle(display.getCursorX() + 2, display.getCursorY() + 1, 2, WHITE);
+                display.setCursor(display.getCursorX() + 6, display.getCursorY());
                 display.print('C');
             }
         }
@@ -132,13 +134,13 @@ void loop() {
         display.println(F("DHT Error"));
     } else {
         display.print(F("DHT: "));
-        display.print(dhtTemp);
+        display.print(dhtTemp, 2);
         display.drawCircle(display.getCursorX() + 2, display.getCursorY() + 1, 2, WHITE);
         display.setCursor(display.getCursorX() + 6, display.getCursorY());
         display.println(F("C"));
 
         display.print(F("DHH: "));
-        display.print(dhtHum);
+        display.print(dhtHum, 2);
         display.println(F("%"));
     }
 
