@@ -5,6 +5,7 @@ dotnev.config({path: path.join(__dirname, '.env')});
 const express = require('express');
 const http = require('http');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const { WebSocketServer } = require('ws');
 const { migrate } = require('./database/migrator');
 const { seedUsers } = require('./database/seeders');
@@ -19,6 +20,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(cors());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({limit: '10mb'}));
 app.use(express.static(path.join(__dirname, 'public')));
