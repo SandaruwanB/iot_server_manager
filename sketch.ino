@@ -87,6 +87,7 @@ void playStartAnime () {
 
 void setup() {
     Serial.begin(115200);
+    dht.begin();
     
     if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
         Serial.println(F("OLED failed"));
@@ -98,5 +99,27 @@ void setup() {
 }
 
 void loop() {
-    
+    const float dhtTemp = dht.readTemperature();
+    const float dhtHum = dht.readHumidity();
+
+    display.clearDisplay();
+    display.setTextSize(1);
+    display.setCursor(0, 0);
+    display.println(F("Sensor Data"));
+
+    display.setCursor(0, 50);
+    if (isnan(dhtTemp) || isnan(dhtHum)) {
+        display.println(F("DHT Error"));
+    } else {
+        display.print(F("Temp: "));
+        display.print(dhtTemp);
+        display.println(F(" C"));
+
+        display.print(F("Hum: "));
+        display.print(dhtHum);
+        display.println(F(" %"));
+    }
+
+    display.display();
+    delay(1000);
 }

@@ -9,6 +9,13 @@ const seedUsers = async () => {
             email: 'sandarusbandara110@gmail.com',
             password: await bcrypt.hash('admin@1234', 10),
             last_password_reset: null
+        },
+        {
+            user_name: 'iot',
+            name: 'IOT Device',
+            email: 'iot@cloud.com',
+            password: await bcrypt.hash('iot@123', 10),
+            last_password_reset: null
         }
     ];
 
