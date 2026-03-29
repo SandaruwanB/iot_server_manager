@@ -6,6 +6,10 @@ module.exports = (broadcast) => {
 
         getResetPasswordView: (req, res) => {
             res.render('auth/passwordReset');
+        },
+
+        getOtpVerificationView: (req, res) => {
+            res.render('auth/otpVerify');
         }
     };
 };
