@@ -8,7 +8,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "tw:build": "tailwindcss -i ./views/static/css/tailwind.css -o ./views/static/css/output.css",
+    "tw:watch": "tailwindcss -i ./views/static/css/tailwind.css -o ./views/static/css/output.css --watch"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -24,5 +26,9 @@
     "nodemon": "^3.1.14",
     "sequelize": "^6.37.8",
     "ws": "^8.19.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.2.2",
+    "tailwindcss": "^4.2.2"
   }
 }
