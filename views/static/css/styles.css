@@ -232,9 +232,16 @@ a:hover {
 
 .card-header {
     padding: 36px 36px 28px;
-    text-align: center;
+    text-align: start;
     background: linear-gradient(160deg, var(--bg-card-alt) 0%, var(--bg-card) 100%);
     border-bottom: 1px solid var(--border);
+}
+
+.card-icon-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .card-icon {
