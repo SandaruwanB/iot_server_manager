@@ -7,6 +7,7 @@ const http = require('http');
 const cors = require('cors');
 const { WebSocketServer } = require('ws');
 const { migrate } = require('./database/migrator');
+const { seedUsers } = require('./database/seeders');
 
 
 const app = express();
@@ -55,5 +56,6 @@ app.use('/web', require('./routes/web')(broadcast));
 
 server.listen(port, async () => {
     if (process.env.DB_MIGRATE === 'true') await migrate();
+    if (process.env.DB_SEED === 'true') await seedUsers();
     console.log(`Server is running on port ${port}`);
 });
