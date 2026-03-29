@@ -19,6 +19,22 @@ const webAuth = (req, res, next) => {
     }
 };
 
+// not auth routes protector
+const webNotAuth = (req, res, next) => {
+    const token = req.cookies?.token;
+
+    if (!token) {
+        next()
+    }
+    try {
+        req.user = jwt.verify(token, secret);
+        return res.redirect('/web/dashboard');
+    } catch {
+        res.clearCookie('token');
+        next();
+    }
+}
+
 
 // api auth middleware
 const apiAuth = (req, res, next) => {
@@ -41,4 +57,4 @@ const apiAuth = (req, res, next) => {
     }
 };
 
-module.exports = { webAuth, apiAuth };
+module.exports = { webAuth, webNotAuth, apiAuth };
