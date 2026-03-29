@@ -1,13 +1,20 @@
 const route = require('express').Router();
 const authControllerFactory = require('../app/controllers/authController');
+const dashboardControllerFactory = require('../app/controllers/dashboardController');
+const { webAuth, webNotAuth } = require('../app/middlewares/authMiddleware');
 
 module.exports = (broadcast) => {
-    const { getLoginView, getResetPasswordView, getOtpVerificationView, getChangePasswordView } = authControllerFactory(broadcast);
+    const { getLoginView, getResetPasswordView, getOtpVerificationView, getChangePasswordView, performLogin } = authControllerFactory(broadcast);
+    const { getDashboardView } = dashboardControllerFactory(broadcast);
 
-    route.get('/login', getLoginView);
-    route.get('/password/reset', getResetPasswordView);
-    route.get('/otp/verify', getOtpVerificationView);
-    route.get('/password/change', getChangePasswordView);
+    route.get('/login', webNotAuth, getLoginView);
+    route.post('/login', performLogin);
+
+    route.get('/password/reset', webNotAuth, getResetPasswordView);
+    route.get('/otp/verify', webNotAuth, getOtpVerificationView);
+    route.get('/password/change', webNotAuth, getChangePasswordView);
+
+    route.get('/dashboard', webAuth, getDashboardView);
 
     return route;
 }

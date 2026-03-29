@@ -15,7 +15,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
     const remember = document.querySelector('[name="remember"]').checked;
 
     try {
-        const res = await fetch('/api/login', {
+        const res = await fetch('/web/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password, remember })
@@ -24,8 +24,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
         const data = await res.json();
 
         if (res.ok) {
-            // Redirect on success
-            window.location.href = data.redirect || '/';
+            window.location.href = data.redirect || '/web/dashboard';
         } else {
             showAlert(data.message || 'Invalid username or password.');
         }
