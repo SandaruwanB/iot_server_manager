@@ -8,8 +8,8 @@ module.exports = (broadcast) => {
             res.render('auth/passwordReset');
         },
 
-        getOtpConfirmationView: (req, res) => {
-            res.render('auth/otpConfirmation');
+        getOtpVerificationView: (req, res) => {
+            res.render('auth/otpVerify');
         }
     };
 };
