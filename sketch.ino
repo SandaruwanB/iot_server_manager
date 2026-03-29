@@ -88,6 +88,7 @@ void playStartAnime () {
 void setup() {
     Serial.begin(115200);
     dht.begin();
+    sensors.begin();
     
     if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
         Serial.println(F("OLED failed"));
@@ -101,23 +102,44 @@ void setup() {
 void loop() {
     const float dhtTemp = dht.readTemperature();
     const float dhtHum = dht.readHumidity();
+    const int sensorCount = sensors.getDeviceCount();
 
+    sensors.requestTemperatures();
     display.clearDisplay();
     display.setTextSize(1);
     display.setCursor(0, 0);
     display.println(F("Sensor Data"));
 
+    for (int i = 0; i < 4; i++) {
+        display.setCursor(0, (i + 1) * 10);
+        display.print('S');
+        display.print(i);
+        display.print('T');
+        if (i < sensorCount) {
+            const float tempC = sensors.getTempCByIndex(i);
+            if (tempC == DEVICE_DISCONNECTED_C) {
+                display.println(F(": Err"));
+            } else {
+                display.print(F(": "));
+                display.print(tempC, 1);
+                display.print('C');
+            }
+        }
+    }
+
     display.setCursor(0, 50);
     if (isnan(dhtTemp) || isnan(dhtHum)) {
         display.println(F("DHT Error"));
     } else {
-        display.print(F("Temp: "));
+        display.print(F("DHT: "));
         display.print(dhtTemp);
-        display.println(F(" C"));
+        display.drawCircle(display.getCursorX() + 2, display.getCursorY() + 1, 2, WHITE);
+        display.setCursor(display.getCursorX() + 6, display.getCursorY());
+        display.println(F("C"));
 
-        display.print(F("Hum: "));
+        display.print(F("DHH: "));
         display.print(dhtHum);
-        display.println(F(" %"));
+        display.println(F("%"));
     }
 
     display.display();
