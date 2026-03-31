@@ -1,0 +1,62 @@
+
+
+<aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+        <div class="sidebar-section-title">Overview</div>
+        <a href="/web/dashboard" class="sidebar-link <%= active === 'dashboard' ? 'active' : '' %>">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.7" />
+                <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.7" />
+                <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.7" />
+                <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.7" />
+            </svg>
+            <span>Dashboard</span>
+        </a>
+        
+        <div class="sidebar-section-title">Monitoring</div>
+        <a href="/web/dashboard" class="sidebar-link">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26A4.5 4.5 0 1014 14.76z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>Climate Monitor</span>
+            <span class="sidebar-badge">LIVE</span>
+        </a>
+
+        <a href="#" class="sidebar-link">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="2" width="20" height="8" rx="2" stroke="currentColor" stroke-width="1.7" />
+                <rect x="2" y="14" width="20" height="8" rx="2" stroke="currentColor" stroke-width="1.7" />
+                <circle cx="18" cy="6" r="1.2" fill="currentColor" />
+                <circle cx="18" cy="18" r="1.2" fill="currentColor" />
+            </svg>
+            <span>Server Status</span>
+        </a>
+
+        <a href="#" class="sidebar-link">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>Network &amp; SIM</span>
+        </a>
+
+        <div class="sidebar-section-title">Management</div>
+        <a href="#" class="sidebar-link">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.7" />
+                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+            </svg>
+            <span>Users</span>
+        </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+        <a href="/web/logout" class="sidebar-link sidebar-link-danger">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>Sign Out</span>
+        </a>
+    </div>
+</aside>

@@ -4,6 +4,10 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 #include "DHT.h"
+#include <WiFi.h>
+
+#define WIFI_SSID "Sandaruwan's iPhone"
+#define WIFI_PASS "sandaru119"
 
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
@@ -51,6 +55,20 @@ void slotDrawing (int i, bool isOnline){
     }
 }
 
+void drawWifiIcon(int16_t x, int16_t y, bool connected) {
+    int16_t cx = x + 7;
+    int16_t cy = y + 9;
+
+    display.drawCircle(cx, cy, 8, WHITE); // outer arc
+    display.drawCircle(cx, cy, 5, WHITE); // mid arc
+    display.fillCircle(cx, cy, 2, WHITE); // dot
+    display.fillRect(cx - 8, cy, 17, 10, BLACK); // mask bottom half
+
+    if (!connected) {
+        display.drawLine(x, y + 8, x + 14, y, WHITE); // strike-through
+    }
+}
+
 void playStartAnime () {
     // rack frame and title
     display.clearDisplay();
@@ -87,7 +105,25 @@ void playStartAnime () {
 
 void setup() {
     Serial.begin(115200);
+
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(WIFI_SSID, WIFI_PASS);
+    Serial.print(F("Connecting to WiFi"));
+    unsigned long wifiStart = millis();
+    while (WiFi.status() != WL_CONNECTED && millis() - wifiStart < 10000) {
+        delay(500);
+        Serial.print('.');
+    }
+    Serial.println();
+    if (WiFi.status() == WL_CONNECTED) {
+        Serial.print(F("Connected. IP: "));
+        Serial.println(WiFi.localIP());
+    } else {
+        Serial.println(F("WiFi timeout. Skipping."));
+    }
+
     dht.begin();
+    sensors.begin();
     
     if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
         Serial.println(F("OLED failed"));
@@ -101,23 +137,47 @@ void setup() {
 void loop() {
     const float dhtTemp = dht.readTemperature();
     const float dhtHum = dht.readHumidity();
+    const int sensorCount = sensors.getDeviceCount();
 
+    sensors.requestTemperatures();
     display.clearDisplay();
     display.setTextSize(1);
     display.setCursor(0, 0);
     display.println(F("Sensor Data"));
+    drawWifiIcon(113, 0, WiFi.status() == WL_CONNECTED);
+
+    for (int i = 0; i < 4; i++) {
+        display.setCursor(0, (i + 1) * 10);
+        display.print('S');
+        display.print(i);
+        display.print('T');
+        if (i < sensorCount) {
+            const float tempC = sensors.getTempCByIndex(i);
+            if (tempC == DEVICE_DISCONNECTED_C) {
+                display.println(F(": Err"));
+            } else {
+                display.print(F(": "));
+                display.print(tempC, 2);
+                display.drawCircle(display.getCursorX() + 2, display.getCursorY() + 1, 2, WHITE);
+                display.setCursor(display.getCursorX() + 6, display.getCursorY());
+                display.print('C');
+            }
+        }
+    }
 
     display.setCursor(0, 50);
     if (isnan(dhtTemp) || isnan(dhtHum)) {
         display.println(F("DHT Error"));
     } else {
-        display.print(F("Temp: "));
-        display.print(dhtTemp);
-        display.println(F(" C"));
+        display.print(F("DHT: "));
+        display.print(dhtTemp, 2);
+        display.drawCircle(display.getCursorX() + 2, display.getCursorY() + 1, 2, WHITE);
+        display.setCursor(display.getCursorX() + 6, display.getCursorY());
+        display.println(F("C"));
 
-        display.print(F("Hum: "));
-        display.print(dhtHum);
-        display.println(F(" %"));
+        display.print(F("DHH: "));
+        display.print(dhtHum, 2);
+        display.println(F("%"));
     }
 
     display.display();
