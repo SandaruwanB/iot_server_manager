@@ -23,11 +23,16 @@ const Users = sequelize.define('users', {
         unique: true
     },
     password: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false
     },
     last_password_reset: {
         type: 'TIMESTAMP',
         allowNull: true
+    },
+    is_superuser: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     }
 }, {
     timestamps: true,

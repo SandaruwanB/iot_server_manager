@@ -1,0 +1,15 @@
+<%- include('./imports/top', { title: 'Dashboard' }) %>
+<body>
+    <div class="bg-grid"></div>
+    <div class="app-shell">
+        <%- include('./components/navbar') %>
+
+        <div class="content-wrap">
+            <%- include('./components/sidebar', { active: 'users' }) %>
+            <div class="sidebar-overlay" id="sidebar-overlay"></div>
+        </div>
+    
+    </div>
+    <%- include('./imports/js') %>
+</body>
+</html>
