@@ -8,6 +8,7 @@ const seedUsers = async () => {
             name: 'Administrator',
             email: 'sandarusbandara110@gmail.com',
             password: await bcrypt.hash('admin@1234', 10),
+            is_superuser: true,
             last_password_reset: null
         },
         {
@@ -15,6 +16,7 @@ const seedUsers = async () => {
             name: 'IOT Device',
             email: 'iot@cloud.com',
             password: await bcrypt.hash('iot@123', 10),
+            is_superuser: false,
             last_password_reset: null
         }
     ];
