@@ -869,12 +869,12 @@ a:hover {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 32px 36px 28px;
+    padding: 18px 22px 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    min-width: 240px;
+    gap: 8px;
+    min-width: 160px;
     box-shadow: var(--shadow-card);
     transition: border-color var(--transition);
 }
@@ -892,28 +892,28 @@ a:hover {
 }
 
 .gauge-svg {
-    width: 210px;
-    height: 210px;
+    width: 140px;
+    height: 140px;
     overflow: visible;
 }
 
 .gauge-track {
     fill: none;
     stroke: var(--bg-base);
-    stroke-width: 18;
+    stroke-width: 14;
     stroke-linecap: round;
 }
 
 .gauge-fill {
     fill: none;
-    stroke-width: 18;
+    stroke-width: 14;
     stroke-linecap: round;
     transition: stroke-dasharray 0.7s cubic-bezier(.4, 0, .2, 1),
         stroke 0.5s ease;
 }
 
 .gauge-value {
-    font-size: 2.6rem;
+    font-size: 1.8rem;
     font-weight: 700;
     fill: var(--text-primary);
     text-anchor: middle;
@@ -921,7 +921,7 @@ a:hover {
 }
 
 .gauge-unit {
-    font-size: 0.95rem;
+    font-size: 0.75rem;
     fill: var(--text-muted);
     text-anchor: middle;
     dominant-baseline: middle;
@@ -930,8 +930,8 @@ a:hover {
 .gauge-range {
     display: flex;
     justify-content: space-between;
-    width: 210px;
-    font-size: 0.72rem;
+    width: 140px;
+    font-size: 0.65rem;
     color: var(--text-muted);
     padding: 0 4px;
 }
