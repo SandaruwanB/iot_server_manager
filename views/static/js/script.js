@@ -1,4 +1,5 @@
-document.getElementById('login-form').addEventListener('submit', async function (e) {
+const _loginForm = document.getElementById('login-form');
+if (_loginForm) _loginForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const btn      = document.getElementById('btn-submit');
@@ -48,3 +49,4 @@ function showAlert(message) {
         ${message}`;
     form.parentElement.insertBefore(div, form);
 }
+})

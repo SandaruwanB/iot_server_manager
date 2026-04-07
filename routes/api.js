@@ -44,5 +44,14 @@ module.exports = (broadcast) => {
         res.json({ ok: true });
     });
 
+    route.post('/server-status', (req, res) => {
+        const { online } = req.body;
+        if (typeof online !== 'boolean') {
+            return res.status(400).json({ error: 'online must be a boolean' });
+        }
+        broadcast({ type: 'server_status', data: { online } });
+        res.json({ ok: true });
+    });
+
     return route;
 };

@@ -57,13 +57,11 @@ const ws = new WebSocket(`ws://${location.host}`);
 ws.addEventListener('open', () => {
     wsDot.className   = 'ws-connected';
     wsLabel.className = 'ws-connected';
-    wsLabel.textContent = 'Connected';
 });
 
 ws.addEventListener('close', () => {
     wsDot.className   = 'ws-disconnected';
     wsLabel.className = 'ws-disconnected';
-    wsLabel.textContent = 'Disconnected';
 });
 
 ws.addEventListener('message', (event) => {
@@ -78,5 +76,17 @@ ws.addEventListener('message', (event) => {
         updateDHT22(t, h);
         ds18b20.forEach((temp, idx) => updateProbe(idx, temp));
         lastUpdated.textContent = 'Last updated: ' + new Date().toLocaleTimeString();
+    }
+    if (payload.type === 'server_status' && payload.data) {
+        const isOnline = payload.data.online;
+        const dot   = document.getElementById('server-dot');
+        const badge = document.getElementById('server-badge');
+        const label = document.getElementById('server-status-label');
+        if (!dot) return;
+        dot.className     = 'server-dot ' + (isOnline ? 'server-dot-online' : 'server-dot-offline');
+        badge.textContent = isOnline ? 'Online' : 'Offline';
+        badge.className   = 'server-badge ' + (isOnline ? 'server-badge-online' : 'server-badge-offline');
+        label.textContent = isOnline ? 'Active' : 'Inactive';
+        label.style.color = isOnline ? 'var(--success)' : 'var(--error)';
     }
 });
