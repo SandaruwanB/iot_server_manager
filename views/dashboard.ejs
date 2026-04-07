@@ -17,6 +17,7 @@
                     <div id="last-updated" class="page-timestamp">Waiting for sensor data&hellip;</div>
                 </div>
 
+                <div class="section-label">DHT22 &mdash; Temperature &amp; Humidity</div>
                 <div class="gauges">
                     <div class="gauge-card">
                         <div class="gauge-title">Temperature</div>
@@ -69,6 +70,40 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="section-label" style="margin-top:36px;">DS18B20 &mdash; Probe Temperatures</div>
+                <div class="probe-cards">
+                    <% for (let i = 0; i < 4; i++) { %>
+                    <div class="probe-card">
+                        <div class="probe-header">
+                            <svg class="probe-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/>
+                            </svg>
+                            <span class="probe-name">Probe <%= i + 1 %></span>
+                        </div>
+                        <div class="probe-value-wrap">
+                            <span class="probe-value" id="probe-<%= i %>-value">--</span>
+                            <span class="probe-unit">°C</span>
+                        </div>
+                        <div class="probe-bar-wrap">
+                            <div class="probe-bar-track">
+                                <div class="probe-bar-fill" id="probe-<%= i %>-bar"></div>
+                            </div>
+                            <div class="probe-bar-range"><span>-55°C</span><span>125°C</span></div>
+                        </div>
+                        <div class="stats">
+                            <div class="stat">
+                                <span class="stat-label">Min</span>
+                                <span class="stat-val" id="probe-<%= i %>-min">--</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Max</span>
+                                <span class="stat-val" id="probe-<%= i %>-max">--</span>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
                 </div>
 
             </main>
