@@ -49,4 +49,3 @@ function showAlert(message) {
         ${message}`;
     form.parentElement.insertBefore(div, form);
 }
-})
