@@ -54,6 +54,7 @@ wss.on('connection', (ws) => {
 app.get('/', (req, res) => res.redirect('/web/login'));
 app.use('/api', require('./routes/api')(broadcast));
 app.use('/web', require('./routes/web')(broadcast));
+app.get('/{*path}', (req, res) => res.status(404).render('404'));
 
 
 server.listen(port, async () => {

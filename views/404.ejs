@@ -1,0 +1,52 @@
+<%- include('./imports/top', { title: '404 Not Found' }) %>
+<body>
+    <div class="bg-grid"></div>
+    <div class="notfound-wrap">
+        <div class="notfound-card">
+            <div class="notfound-code">404</div>
+            <h1 class="notfound-title">Page Not Found</h1>
+            <p class="notfound-sub">The page you're looking for doesn't exist or has been moved.</p>
+            <a href="/web/dashboard" class="btn-primary">Go to Dashboard</a>
+        </div>
+    </div>
+    <style>
+        .notfound-wrap {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .notfound-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 3rem 2.5rem;
+            text-align: center;
+            max-width: 420px;
+            width: 100%;
+        }
+        .notfound-code {
+            font-size: 6rem;
+            font-weight: 800;
+            line-height: 1;
+            color: var(--accent);
+            opacity: 0.25;
+            letter-spacing: -4px;
+            margin-bottom: 1rem;
+        }
+        .notfound-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.6rem;
+        }
+        .notfound-sub {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+    </style>
+</body>
+</html>

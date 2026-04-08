@@ -1,4 +1,6 @@
 const { sendPasswordResetMail } = require('../app/controllers/mailController');
+const Users = require('../app/models/users');
+const bcrypt = require('bcrypt');
 
 const route = require('express').Router();
 
@@ -42,6 +44,32 @@ module.exports = (broadcast) => {
         }
         broadcast({ type: 'sensor_data', data: { dht22_temp, dht22_humidity, ds18b20 } });
         res.json({ ok: true });
+    });
+
+    route.post('/server-status', (req, res) => {
+        const { online } = req.body;
+        if (typeof online !== 'boolean') {
+            return res.status(400).json({ error: 'online must be a boolean' });
+        }
+        broadcast({ type: 'server_status', data: { online } });
+        res.json({ ok: true });
+    });
+
+    route.post('/users', async (req, res) => {
+        const { name, user_name, email, password, is_superuser } = req.body;
+        if (!name || !user_name || !email || !password) {
+            return res.status(400).json({ error: 'name, user_name, email and password are required' });
+        }
+        if (password.length < 8) {
+            return res.status(400).json({ error: 'Password must be at least 8 characters' });
+        }
+        const existing = await Users.findOne({ where: { user_name } });
+        if (existing) return res.status(409).json({ error: 'Username already taken' });
+        const existingEmail = await Users.findOne({ where: { email } });
+        if (existingEmail) return res.status(409).json({ error: 'Email already registered' });
+        const hashed = await bcrypt.hash(password, 12);
+        const user = await Users.create({ name, user_name, email, password: hashed, is_superuser: !!is_superuser });
+        res.status(201).json({ ok: true, id: user.id });
     });
 
     return route;
