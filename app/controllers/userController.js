@@ -31,7 +31,7 @@ const getUserList = async (req, res) => {
         where,
         limit,
         offset,
-        order: [['id', 'ASC']],
+        order: [['id', 'DESC']],
         attributes: ['id', 'name', 'user_name', 'email', 'is_superuser', 'created_at']
     });
 
