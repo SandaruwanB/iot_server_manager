@@ -1,0 +1,139 @@
+<%- include('../imports/top', { title: 'Create User' }) %>
+<body>
+    <div class="bg-grid"></div>
+    <div class="app-shell">
+        <%- include('../components/navbar') %>
+
+        <div class="content-wrap">
+            <%- include('../components/sidebar', { active: 'users' }) %>
+            <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+            <main class="dashboard-main">
+                <div class="page-header-row">
+                    <div>
+                        <h1 class="page-heading">Create <span>User</span></h1>
+                        <p class="page-subheading">Add a new system user</p>
+                    </div>
+                    <div class="page-header-actions">
+                        <a href="/web/users" class="btn-secondary">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14"><path d="M15 18l-6-6 6-6"/></svg>
+                            Back to Users
+                        </a>
+                    </div>
+                </div>
+
+                <div class="user-form-card">
+                    <div id="form-alert" class="form-alert" style="display:none;"></div>
+                    <form id="create-user-form" onsubmit="submitUser(event)">
+                        <div class="user-form-grid">
+                            <div class="field-group">
+                                <label class="field-label">Full Name</label>
+                                <div class="field-wrap">
+                                    <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                    <input type="text" name="name" id="f-name" class="field-input" placeholder="John Doe" required autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Username</label>
+                                <div class="field-wrap">
+                                    <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                    <input type="text" name="user_name" id="f-username" class="field-input" placeholder="johndoe" required autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Email Address</label>
+                                <div class="field-wrap">
+                                    <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+                                    <input type="email" name="email" id="f-email" class="field-input" placeholder="john@example.com" required autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Password</label>
+                                <div class="field-wrap">
+                                    <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                                    <input type="password" name="password" id="f-password" class="field-input" placeholder="Min. 8 characters" required minlength="8" autocomplete="new-password" />
+                                </div>
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Confirm Password</label>
+                                <div class="field-wrap">
+                                    <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                                    <input type="password" name="confirm_password" id="f-confirm" class="field-input" placeholder="Repeat password" required minlength="8" autocomplete="new-password" />
+                                </div>
+                            </div>
+                            <div class="field-group user-form-checkbox-row">
+                                <label class="field-label checkbox-label">
+                                    <input type="checkbox" name="is_superuser" id="f-superuser" class="checkbox-input" />
+                                    <span class="checkbox-custom"></span>
+                                    Grant superuser privileges
+                                </label>
+                            </div>
+                        </div>
+                        <div class="user-form-actions">
+                            <button type="submit" class="btn-primary" id="submit-btn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14"><path d="M12 5v14M5 12h14"/></svg>
+                                Create User
+                            </button>
+                            <a href="/web/users" class="btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+    <%- include('../imports/js') %>
+    <script>
+        async function submitUser(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const alertBox = document.getElementById('form-alert');
+
+            const name     = document.getElementById('f-name').value.trim();
+            const username = document.getElementById('f-username').value.trim();
+            const email    = document.getElementById('f-email').value.trim();
+            const password = document.getElementById('f-password').value;
+            const confirm  = document.getElementById('f-confirm').value;
+            const is_superuser = document.getElementById('f-superuser').checked;
+
+            alertBox.style.display = 'none';
+            alertBox.className = 'form-alert';
+
+            if (password !== confirm) {
+                alertBox.textContent = 'Passwords do not match.';
+                alertBox.classList.add('form-alert-error');
+                alertBox.style.display = 'block';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.classList.add('loading');
+
+            try {
+                const res = await fetch('/api/users', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, user_name: username, email, password, is_superuser })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alertBox.textContent = 'User created successfully! Redirecting…';
+                    alertBox.classList.add('form-alert-success');
+                    alertBox.style.display = 'block';
+                    setTimeout(() => { window.location.href = '/web/users'; }, 1200);
+                } else {
+                    alertBox.textContent = data.message || 'Failed to create user.';
+                    alertBox.classList.add('form-alert-error');
+                    alertBox.style.display = 'block';
+                }
+            } catch {
+                alertBox.textContent = 'Network error. Please try again.';
+                alertBox.classList.add('form-alert-error');
+                alertBox.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.classList.remove('loading');
+            }
+        }
+    </script>
+</body>
+</html>

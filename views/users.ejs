@@ -16,10 +16,10 @@
                     </div>
                     <div class="page-header-actions">
                         <span class="users-total-badge"><%= pagination.total %> total</span>
-                        <button class="btn-primary" onclick="openCreateModal()">
+                        <a href="/web/users/create" class="btn-primary" >
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14"><path d="M12 5v14M5 12h14"/></svg>
                             Create User
-                        </button>
+                        </a>
                     </div>
                 </div>
 
@@ -178,77 +178,6 @@
         </div>
     </div>
 
-    <script>
-        function changeLimit(val) {
-            const url = new URL(window.location.href);
-            url.searchParams.set('limit', val);
-            url.searchParams.set('page', 1);
-            window.location.href = url.toString();
-        }
-        const searchInput = document.querySelector('.search-input');
-        let searchTimer;
-        if (searchInput) {
-            searchInput.addEventListener('input', () => {
-                clearTimeout(searchTimer);
-                searchTimer = setTimeout(() => document.getElementById('search-form').submit(), 400);
-            });
-        }
-
-        function openCreateModal() {
-            document.getElementById('create-modal').classList.add('open');
-            document.getElementById('create-user-form').reset();
-            document.getElementById('create-alert').style.display = 'none';
-        }
-
-        function closeCreateModal(e) {
-            if (e && e.target !== document.getElementById('create-modal')) return;
-            document.getElementById('create-modal').classList.remove('open');
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') document.getElementById('create-modal').classList.remove('open');
-        });
-
-        async function submitCreateUser(e) {
-            e.preventDefault();
-            const form = e.target;
-            const btn  = document.getElementById('create-submit-btn');
-            const alertBox = document.getElementById('create-alert');
-            alertBox.style.display = 'none';
-            btn.disabled = true;
-            btn.textContent = 'Creating…';
-
-            const body = {
-                name:         form.name.value.trim(),
-                user_name:    form.user_name.value.trim(),
-                email:        form.email.value.trim(),
-                password:     form.password.value,
-                is_superuser: form.is_superuser.checked
-            };
-
-            try {
-                const res  = await fetch('/api/users', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                });
-                const data = await res.json();
-                if (res.ok) {
-                    document.getElementById('create-modal').classList.remove('open');
-                    window.location.reload();
-                } else {
-                    alertBox.textContent = data.error || 'Failed to create user.';
-                    alertBox.style.display = 'block';
-                }
-            } catch {
-                alertBox.textContent = 'Network error. Please try again.';
-                alertBox.style.display = 'block';
-            } finally {
-                btn.disabled = false;
-                btn.textContent = 'Create User';
-            }
-        }
-    </script>
     <%- include('./imports/js') %>
 </body>
 </html>

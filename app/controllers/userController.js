@@ -5,6 +5,10 @@ module.exports = (broadcast) => {
     return {
         getUserListView: async (req, res) => {
             return getUserList(req, res);
+        },
+
+        getUserCreateView: async (req, res) => {
+            res.render('forms/user');
         }
     };
 };
