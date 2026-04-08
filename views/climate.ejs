@@ -1,18 +1,18 @@
-<%- include('./imports/top', { title: 'Settings' }) %>
+<%- include('./imports/top', { title: 'Climate Monitor' }) %>
 <body>
     <div class="bg-grid"></div>
     <div class="app-shell">
         <%- include('./components/navbar') %>
 
         <div class="content-wrap">
-            <%- include('./components/sidebar', { active: 'settings' }) %>
+            <%- include('./components/sidebar', { active: 'climate' }) %>
             <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
             <main class="dashboard-main">
                 <div class="page-header-row">
                     <div>
-                        <h1 class="page-heading">Settings <span>Manager</span></h1>
-                        <p class="page-subheading">Manage your application settings</p>
+                        <h1 class="page-heading">Climate <span>Monitor</span></h1>
+                        <p class="page-subheading">Monitor your application's climate data</p>
                     </div>
                 </div>
             </main>
