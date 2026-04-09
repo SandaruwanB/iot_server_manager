@@ -9,7 +9,7 @@ const { webAuth, webNotAuth } = require('../app/middlewares/authMiddleware');
 module.exports = (broadcast) => {
     const { getLoginView, getResetPasswordView, getOtpVerificationView, getChangePasswordView, performLogin } = authControllerFactory(broadcast);
     const { getDashboardView } = dashboardControllerFactory(broadcast);
-    const { getUserListView, getUserCreateView } = userControllerFactory(broadcast);
+    const { getUserListView, getUserCreateView, getUserEditView } = userControllerFactory(broadcast);
     const { getSettingsView } = settingsControllerFactory(broadcast);
     const { getClimateView } = climateMonitorControllerFactory(broadcast);
 
@@ -24,6 +24,7 @@ module.exports = (broadcast) => {
 
     route.get('/users', webAuth, getUserListView);
     route.get('/users/create', webAuth, getUserCreateView);
+    route.get('/users/view/:id', webAuth, getUserEditView);
 
     route.get('/settings', webAuth, getSettingsView);
 

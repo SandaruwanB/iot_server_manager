@@ -12,7 +12,7 @@ const webAuth = (req, res, next) => {
 
     try {
         req.user = jwt.verify(token, secret);
-        next();
+        return next();
     } catch {
         res.clearCookie('token');
         return res.redirect('/web/login');

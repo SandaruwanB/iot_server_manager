@@ -63,7 +63,7 @@
                                 </td>
                             </tr>
                             <% } else { users.forEach((user, idx) => { %>
-                            <tr>
+                            <tr onclick="window.location='/web/users/view/<%= user.id %>'" style="cursor:pointer;">
                                 <td class="td-num"><%= (pagination.page - 1) * pagination.limit + idx + 1 %></td>
                                 <td class="td-name">
                                     <div class="user-avatar"><%= user.name.charAt(0).toUpperCase() %></div>
