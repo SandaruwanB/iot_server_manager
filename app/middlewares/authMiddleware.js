@@ -24,14 +24,14 @@ const webNotAuth = (req, res, next) => {
     const token = req.cookies?.token;
 
     if (!token) {
-        next()
+        return next();
     }
     try {
         req.user = jwt.verify(token, secret);
         return res.redirect('/web/dashboard');
     } catch {
         res.clearCookie('token');
-        next();
+        return next();
     }
 }
 
@@ -51,7 +51,7 @@ const apiAuth = (req, res, next) => {
     }
     try {
         req.user = jwt.verify(token, secret);
-        next();
+        return next();
     } catch {
         return res.status(401).json({ message: 'Invalid or expired token.' });
     }
