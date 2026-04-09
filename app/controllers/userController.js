@@ -1,5 +1,5 @@
 const Users = require('../models/users');
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 
 module.exports = (broadcast) => {
     return {
@@ -9,9 +9,23 @@ module.exports = (broadcast) => {
 
         getUserCreateView: async (req, res) => {
             res.render('forms/user');
+        },
+
+        getUserEditView: async (req, res) => {
+            return getUpdateUser(req, res, req.params.id);
         }
     };
 };
+
+const getUpdateUser = async (req, res, id) => {
+    const user = await Users.findOne({
+        where: { id : id }
+    });
+    if (!user) {
+        return res.status(404).send('User not found');
+    }
+    return res.render('forms/user', { user });
+}
 
 
 const getUserList = async (req, res) => {
