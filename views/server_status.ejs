@@ -1,0 +1,25 @@
+
+    <%- include('./imports/top', { title: 'Server Status' }) %>
+    <body>
+        <div class="bg-grid"></div>
+        <div class="app-shell">
+            <%- include('./components/navbar') %>
+
+            <div class="content-wrap">
+                <%- include('./components/sidebar', { active: 'server_status' }) %>
+                <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+                <main class="dashboard-main">
+                    <div class="page-header-row">
+                        <div>
+                            <h1 class="page-heading">Server <span>Status</span></h1>
+                            <p class="page-subheading">Monitor your application's server status</p>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <%- include('./imports/js') %>
+    </body>
+    </html>

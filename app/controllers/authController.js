@@ -22,6 +22,10 @@ module.exports = (broadcast) => {
 
         performLogin: async (req, res) => {
             return login(req, res, broadcast);
+        },
+
+        performLogout: (req, res) => {
+            return signOut(req, res);
         }
 
     };
@@ -64,6 +68,11 @@ const login = async (req, res, broadcast) => {
         return res.status(500).json({ message: 'Internal server error' });
     }
 
+}
+
+const signOut = (req, res) => {
+    res.clearCookie('token', { httpOnly: true, sameSite: 'strict' });
+    return res.redirect('/web/login');
 }
 
 
